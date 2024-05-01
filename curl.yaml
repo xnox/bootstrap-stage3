@@ -1,0 +1,46 @@
+package:
+  name: curl
+  version: 8.7.1
+  epoch: 0
+  description: "URL retrieval utility and library"
+  copyright:
+    - license: MIT
+environment:
+  contents:
+    repositories:
+      - https://packages.wolfi.dev/bootstrap/stage2
+    keyring:
+      - https://packages.wolfi.dev/bootstrap/stage2/wolfi-signing.rsa.pub
+    packages:
+      - build-base
+      - busybox
+      - ca-certificates-bundle
+      - openssl
+pipeline:
+  - uses: fetch
+    with:
+      uri: https://curl.se/download/curl-${{package.version}}.tar.xz
+      expected-sha256: 6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd
+  - uses: autoconf/configure
+    with:
+      opts: --with-openssl --disable-docs --disable-manual
+  - runs: |
+      make -C lib/ -j$(nproc)
+      make -C src/ -j$(nproc)
+  - uses: autoconf/make-install
+    with:
+      dir: lib
+  - uses: autoconf/make-install
+    with:
+      dir: src
+subpackages:
+  - name: curl-dev
+    pipeline:
+      - uses: split/dev
+    description: curl dev
+update:
+  enabled: true
+  version-separator: _
+  github:
+    identifier: curl/curl
+    strip-prefix: curl-

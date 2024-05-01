@@ -32,6 +32,7 @@ GDBM_VERSION ?= 1.23-r0
 LIBFFI_VERSION ?= 3.4.2-r0
 MPDECIMAL_VERSION ?= 2.5.1-r0
 OPENSSL_VERSION ?= 3.0.7-r0
+CURL_VERSION ?= 8.7.1-r0
 READLINE_VERSION ?= 8.1.2-r0
 SQLITE_VERSION ?= 3.39.2-r0
 PYTHON3_VERSION ?= 3.10.6-r0
@@ -88,6 +89,7 @@ PACKAGES = \
 	packages/${ARCH}/libffi-${LIBFFI_VERSION}.apk \
 	packages/${ARCH}/mpdecimal-${MPDECIMAL_VERSION}.apk \
 	packages/${ARCH}/openssl-${OPENSSL_VERSION}.apk \
+	packages/${ARCH}/curl-${CURL_VERSION}.apk \
 	packages/${ARCH}/readline-${READLINE_VERSION}.apk \
 	packages/${ARCH}/sqlite-${SQLITE_VERSION}.apk \
 	packages/${ARCH}/python3-${PYTHON3_VERSION}.apk \
@@ -188,6 +190,9 @@ packages/${ARCH}/mpdecimal-${MPDECIMAL_VERSION}.apk:
 
 packages/${ARCH}/openssl-${OPENSSL_VERSION}.apk:
 	${MELANGE} build openssl.yaml ${MELANGE_OPTS} ${MELANGE_DEFOPTS}
+
+packages/${ARCH}/curl-${CURL_VERSION}.apk:
+	${MELANGE} build curl.yaml ${MELANGE_OPTS} ${MELANGE_DEFOPTS}
 
 packages/${ARCH}/readline-${READLINE_VERSION}.apk:
 	${MELANGE} build readline.yaml ${MELANGE_OPTS} --source-dir ./readline/
